@@ -234,3 +234,29 @@ Editing a file directly on GitHub is possible: open the file, click the pencil i
 ## License
 
 This academic repository is provided under the MIT License in [`LICENSE`](LICENSE). Third-party libraries loaded from CDNs retain their own licenses.
+
+
+
+## Application Screenshots
+
+### 1. Home Page
+![Home Page](images/screenshots/01-homepage.png)
+
+### 2. Doctor List
+![Doctor List](images/screenshots/02-doctor-list.png)
+
+### 3. Doctor Profile
+![Doctor Profile](images/screenshots/03-doctor-profile.png)
+
+### 4. Appointment Booking
+![Appointment Booking](images/screenshots/04-appointment-booking.png)
+
+### 5. Admin Panel
+![Admin Panel](images/screenshots/05-admin-panel.png)
+
+### 6. Check My Appointment
+![Check My Appointment](images/screenshots/06-check-my-appointment.png)
+
+### 7. Appointment Slip
+![Appointment Slip](images/screenshots/07-appointment-slip.png)
+
