@@ -1,0 +1,14 @@
+digraph DFD_Context {
+  graph [rankdir=LR, bgcolor="white", pad="0.25", nodesep="0.55", ranksep="0.85", fontname="DejaVu Sans", labelloc="t", label="DATA FLOW DIAGRAM — CONTEXT / LEVEL 0", fontsize=20, fontcolor="#16324F"];
+  node [fontname="DejaVu Sans", fontsize=11, color="#31556B", fontcolor="#16324F", penwidth=1.4, style="filled", fillcolor="#F4FAFC"];
+  edge [fontname="DejaVu Sans", fontsize=9, color="#147D86", fontcolor="#305A68", penwidth=1.3, arrowsize=0.75];
+  patient [shape=box, style="rounded,filled", fillcolor="#E6F5F4", label="PATIENT / VISITOR\nSearch and book"];
+  system [shape=ellipse, style="filled", fillcolor="#D6E8F7", color="#1C6E99", penwidth=2, width=2.6, height=1.1, label="Find Your Doctor\nDirectory & Appointment\nPrototype"];
+  admin [shape=box, style="rounded,filled", fillcolor="#FFF1D7", label="DEMO ADMIN\nReview appointments"];
+  patient -> system [label="search criteria, patient details,\nbooking and status requests"];
+  system -> patient [label="doctor cards, appointment number,\nserial, status and slip"];
+  admin -> system [label="demo login, confirm/cancel,\nbackup / export actions"];
+  system -> admin [label="appointment list, daily summary,\nexport / backup data"];
+  note [shape=note, fillcolor="#FFF9EA", color="#C79B42", fontsize=9, label="Current implementation: browser-only HTML/CSS/JS.\nNo server, shared database or real hospital integration."];
+  system -> note [style=dashed, arrowhead=none, color="#C79B42"];
+}

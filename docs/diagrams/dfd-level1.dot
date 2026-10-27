@@ -1,0 +1,27 @@
+digraph DFD_Level1 {
+ graph [rankdir=LR, bgcolor="white", pad="0.25", nodesep="0.45", ranksep="0.7", fontname="DejaVu Sans", labelloc="t", label="DATA FLOW DIAGRAM — LEVEL 1", fontsize=20, fontcolor="#16324F"];
+ node [fontname="DejaVu Sans", fontsize=10, color="#31556B", fontcolor="#16324F", penwidth=1.3, style="filled", fillcolor="#F4FAFC"];
+ edge [fontname="DejaVu Sans", fontsize=8.5, color="#147D86", fontcolor="#305A68", penwidth=1.2, arrowsize=0.7];
+ patient [shape=box, style="rounded,filled", fillcolor="#E6F5F4", label="Patient / Visitor"];
+ admin [shape=box, style="rounded,filled", fillcolor="#FFF1D7", label="Demo Admin"];
+ p1 [shape=ellipse, fillcolor="#D6E8F7", label="1.0\nSearch Doctors"];
+ p2 [shape=ellipse, fillcolor="#D6E8F7", label="2.0\nBook Appointment"];
+ p3 [shape=ellipse, fillcolor="#D6E8F7", label="3.0\nCheck Appointment"];
+ p4 [shape=ellipse, fillcolor="#D6E8F7", label="4.0\nManage / Export"];
+ d1 [shape=cylinder, fillcolor="#E5F3E7", label="D1 Doctor Dataset\n(data.js) "];
+ d2 [shape=cylinder, fillcolor="#E5F3E7", label="D2 Browser Storage\n(localStorage)"];
+ patient -> p1 [label="query / filters"];
+ d1 -> p1 [label="doctor records"];
+ p1 -> patient [label="matching profiles"];
+ patient -> p2 [label="doctor, date, patient form"];
+ d1 -> p2 [label="selected doctor / schedule"];
+ p2 -> d2 [label="patient + appointment record"];
+ p2 -> patient [label="booking slip / TG number"];
+ patient -> p3 [label="registration + mobile"];
+ d2 -> p3 [label="saved appointments"];
+ p3 -> patient [label="status + current serial"];
+ admin -> p4 [label="confirm / cancel / export"];
+ d2 -> p4 [label="appointment records"];
+ p4 -> d2 [label="updates / restored backup"];
+ p4 -> admin [label="CSV/XLSX and daily summary"];
+}

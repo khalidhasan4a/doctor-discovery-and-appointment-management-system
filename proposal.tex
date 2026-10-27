@@ -1,0 +1,555 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=0.78in,headheight=22pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{float}
+\usepackage{pdflscape}
+\usepackage{pgfgantt}
+\usepackage{caption}
+\usepackage{lastpage}
+\usepackage{tikz}
+\usepackage{listings}
+\graphicspath{{docs/diagrams/}{images/}}
+
+\definecolor{navy}{HTML}{16324F}
+\definecolor{teal}{HTML}{147D86}
+\definecolor{pale}{HTML}{E6F5F4}
+\definecolor{muted}{HTML}{5F7180}
+\definecolor{lightline}{HTML}{DCE5EA}
+\definecolor{gold}{HTML}{C79B42}
+\hypersetup{colorlinks=true,linkcolor=teal,urlcolor=teal,citecolor=navy,pdftitle={Find Your Doctor - Final Capstone Project Proposal},pdfauthor={Md. Khalid Hasan}}
+\setlength{\parskip}{5pt}
+\setlength{\parindent}{0pt}
+\setlist[itemize]{leftmargin=1.25em,itemsep=2pt,topsep=3pt}
+\setlist[enumerate]{leftmargin=1.35em,itemsep=2pt,topsep=3pt}
+\titleformat{\section}{\Large\bfseries\color{navy}}{\thesection}{0.65em}{}
+\titleformat{\subsection}{\large\bfseries\color{teal}}{\thesubsection}{0.65em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{navy}}{\thesubsubsection}{0.55em}{}
+\pagestyle{fancy}\fancyhf{}
+\lhead{\small\color{muted}Find Your Doctor | Capstone Proposal}
+\rhead{\small\color{muted}ICT 3108}
+\cfoot{\small\color{muted}Page \thepage\ of \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{lightline}\leaders\hrule height \headrulewidth\hfill}}
+\newcommand{\tagline}[1]{\textcolor{teal}{\textbf{#1}}}
+\newcommand{\req}[2]{\textbf{#1} & #2\\}
+\newcommand{\diagrampage}[3]{%
+  \clearpage\begin{landscape}\thispagestyle{fancy}
+  \section*{#1}\addcontentsline{toc}{section}{#1}
+  \begin{center}\includegraphics[width=0.96\linewidth,height=0.70\textheight,keepaspectratio]{#2}\\[6pt]
+  \captionof{figure}{#3}\end{center}
+  \end{landscape}\clearpage}
+
+\begin{document}
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[navy] (current page.north west) rectangle ([yshift=-5.2cm]current page.north east);
+  \fill[teal] (current page.north west) rectangle ([yshift=-5.35cm]current page.north east);
+  \fill[pale] ([yshift=1.15cm]current page.south west) rectangle (current page.south east);
+\end{tikzpicture}
+\vspace*{0.65cm}
+\begin{minipage}[t]{0.72\textwidth}
+{\color{white}\Large\bfseries CAPSTONE PROJECT PROPOSAL}\\[7pt]
+{\color{white}\small SOFTWARE ENGINEERING AND PROJECT MANAGEMENT LAB}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.20\textwidth}\raggedleft
+\includegraphics[width=2.1cm]{doctor.png}
+\end{minipage}
+\vspace{2.65cm}
+{\color{navy}\Huge\bfseries Find Your Doctor}\par\vspace{0.35cm}
+{\color{muted}\LARGE Tangail Doctor Directory and Appointment Booking Prototype}\par\vspace{1.0cm}
+\rule{\textwidth}{1.2pt}\vspace{0.55cm}
+\begin{tabularx}{\textwidth}{>{\bfseries\color{navy}}p{4.2cm}X}
+Submitted by & Md. Khalid Hasan\\
+Student ID & IT24013\\
+Course title & Software Engineering and Project Management Lab\\
+Course code & ICT 3108\\
+Submitted to & Professor Dr. Ziaur Rahman\\
+Department & Information and Communication Technology\\
+University & Mawlana Bhashani Science and Technology University\\
+Proposal version & 1.0 - Initial capstone proposal\\
+Planning window & 2 November 2026 - 15 January 2027 (proposed)\\
+\end{tabularx}
+\vfill
+
+\end{titlepage}
+
+\pagenumbering{roman}
+\section*{Abstract}
+\addcontentsline{toc}{section}{Abstract}
+Finding an appropriate doctor can require patients to search fragmented clinic information, compare specialities, understand visit schedules, and contact multiple facilities. \textit{Find Your Doctor} is a lightweight web prototype that brings a doctor directory and a sample appointment workflow into one interface. The supplied baseline is implemented with HTML, CSS, and vanilla JavaScript. It includes doctor filters and profile cards, appointment booking, serial generation, patient status lookup, a demonstration admin panel, print/download slips, export and backup/restore actions. The current prototype stores records in the browser's \texttt{localStorage}; it has no server, shared database, authenticated service API, or real hospital integration. Its bundled listings and schedules must be independently validated before any real-world use.
+
+This proposal defines the project objectives, boundaries, stakeholder needs, functional and non-functional requirements, architecture, six UML/analysis diagrams, a class-based interface prototype, risks, quality assurance, and an 11-week incremental delivery plan. A small object-oriented prototype is included to demonstrate seven classes that map directly to the class diagram. The proposed production direction is a server-backed system with controlled access and a normalized database, but the initial capstone deliverable prioritizes a testable, demonstrable student prototype and its documented design.
+
+
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+
+\section{Project Overview}
+\subsection{Project identity}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{4.0cm}X}
+Project name & Find Your Doctor\\
+Project type & Web-based doctor directory and appointment workflow prototype\\
+Primary users & Patients/visitors and a demonstration administrator\\
+Primary technologies & HTML5, CSS3, vanilla JavaScript\\
+Current persistence & Browser \texttt{localStorage} and \texttt{sessionStorage}\\
+Optional libraries & SheetJS for XLSX export; jsPDF for PDF appointment slips\\
+Source organization & Plain HTML/CSS/JS, with no framework or server requirement\\
+Delivery target & Responsive interface, working demo flow, documentation, UML/analysis diagrams, and test evidence\\
+\end{tabularx}
+
+\subsection{Executive summary}
+The project consolidates a doctor directory and a demonstrative appointment workflow in a single website. A visitor can filter doctor cards by hospital, department, speciality, and name; inspect a profile; choose a date; enter patient details; obtain a local appointment reference and serial; and check the locally stored appointment status. The demonstration admin panel supports appointment management and export/backup operations. An additional object-oriented page makes the core domain objects explicit for the course requirement.
+
+The project uses an incremental process. Each iteration delivers a demonstrable slice and receives a review before the next. The submission repository includes the supplied website code organized into standard folders, editable Graphviz sources and rendered images for the diagrams, the LaTeX source and PDF proposal, a testing checklist, and run instructions.
+
+\subsection{Problem statement}
+Doctor information may be spread across clinic directories, social posts, phone calls, and printed schedules. A visitor can spend unnecessary time looking for specialities and visit details. A small digital directory can improve discoverability and demonstrate an appointment workflow, provided it clearly communicates data freshness and does not imply that a local browser record is a real hospital booking.
+
+\subsection{Proposed solution}
+Build and document a responsive web interface with searchable doctor cards, an appointment request form, serial/reference generation, appointment status viewing, and demo administrative functions. In the submitted scope these functions run in one browser and are intended for demonstration only. A production system would require a backend, verified master data, secure identity and access control, a shared database, audit logs, backups, and operational approval from participating facilities.
+
+\section{Goals, Objectives, and Success Criteria}
+\subsection{Overall goal}
+Design, implement, and evaluate a usable web prototype that demonstrates how a doctor directory can connect to a basic appointment-request journey.
+
+\subsection{Specific objectives}
+\begin{enumerate}
+  \item Provide doctor search/filtering across name, hospital, department, and speciality.
+  \item Present key doctor information and a clear action to begin a booking.
+  \item Validate patient input and appointment dates before saving a demo appointment.
+  \item Generate a distinct local reference and sequential serial for the selected doctor, facility, and date.
+  \item Allow users to inspect the status of stored demo appointments and produce a printable/downloadable slip in the baseline application.
+  \item Provide demonstration administrator actions for confirming/cancelling, exporting, and backing up/restoring records.
+  \item Document structure and behaviour through DFD, use-case, activity, ERD, class, and object diagrams.
+  \item Demonstrate at least five classes through an interface that implements the class diagram.
+  \item Deliver source code, setup instructions, proposal PDF and editable LaTeX source in a public-ready repository.
+\end{enumerate}
+
+\subsection{Acceptance criteria}
+\begin{tabularx}{\textwidth}{p{1.0cm}X p{4.0cm}}
+\toprule
+\textbf{ID} & \textbf{Criterion} & \textbf{Evidence}\\\midrule
+AC-01 & Search terms filter doctor records and empty results are explained. & Manual search tests\\
+AC-02 & A valid demo booking creates a unique reference and serial. & Booking test + browser record\\
+AC-03 & Invalid fields and past dates are rejected with clear messages. & Negative test cases\\
+AC-04 & Saved demo records remain visible after page refresh in the same browser origin. & Persistence check\\
+AC-05 & At least five implementation classes match the class diagram. & OOP prototype source + UML\\
+AC-06 & Every required analysis/design diagram is included and legible. & PDF/PNG/SVG + editable DOT sources\\
+AC-07 & PDF and LaTeX source are available at repository root. & Repository file check\\
+AC-08 & Limitations of local-only storage and sample data are prominently disclosed. & README, interface note, proposal\\
+\bottomrule
+\end{tabularx}
+
+\section{Scope and Boundaries}
+\subsection{In scope for the capstone prototype}
+\begin{itemize}
+  \item Browse and filter the bundled doctor/facility dataset.
+  \item View a doctor profile and schedule information supplied in the dataset.
+  \item Demonstrate booking form validation, date selection, serial/reference generation, and an appointment slip.
+  \item Demonstrate appointment lookup and status display using the records held by the browser.
+  \item Demonstrate admin-facing appointment review, confirmation/cancellation, export and backup/restore in the baseline interface.
+  \item Use local storage for persistence within one browser profile.
+  \item Deliver an additional OOP prototype with at least seven classes and a mapping to the UML class diagram.
+  \item Produce technical documentation, quality checks, diagrams, and a proposed completion schedule.
+\end{itemize}
+
+\subsection{Out of scope for this submission}
+\begin{itemize}
+  \item Real-time integration with hospitals, doctors, national identity services, payment gateways, SMS, or email.
+  \item Medical triage, diagnosis, treatment recommendations, emergency dispatch, or medical record management.
+  \item A shared production database or cross-device synchronization.
+  \item A claim that the bundled doctor names, affiliation, specialities, schedules, or phone/contact details are verified/current.
+  \item Production-grade administrator authentication, role-based permissions, security monitoring, audit logging, or clinical-grade privacy compliance.
+\end{itemize}
+
+\subsection{Assumptions and constraints}
+The existing source code supplied for this work is the baseline. The source guide describes a bundled dataset of 235 doctor/facility entries across 11 facilities and location data for Bangladesh; the data are treated as demonstration data until independently validated. Development assumes a modern browser and a local filesystem or VS Code Live Server. Optional XLSX/PDF libraries load from a CDN and may require internet access. The proposed schedule starts on 2 November 2026, subject to supervisor approval and availability of a reviewer for user feedback.
+
+\section{Stakeholders and Use Context}
+\begin{tabularx}{\textwidth}{p{3.0cm}p{4.0cm}X}
+\toprule
+\textbf{Stakeholder} & \textbf{Need / interest} & \textbf{Design response}\\\midrule
+Patient / visitor & Find relevant speciality and understand visit details quickly. & Search, filter, concise doctor cards, clear schedule notes, guided booking.\\
+Demonstration admin & Review records and demonstrate status management. & Admin panel, pending/confirmed states, cancellation, export and backup.\\
+Student developer & Meet course outcomes and show a complete software process. & Modular source, seven-class prototype, requirements, diagrams, tests, schedule.\\
+Course instructor / reviewer & Assess proposal completeness and implementation traceability. & Acceptance criteria, milestone evidence, a reproducible repository and PDF.\\
+Hospital/clinic representative (future) & Ensure correct listing and operational feasibility. & Required data verification step before any public deployment.\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Primary user journeys}
+\textbf{Journey A - Find a doctor:} the visitor enters a name, facility, department, or speciality; the list updates; the visitor reviews profile/schedule information.
+
+\textbf{Journey B - Request an appointment:} the visitor selects a doctor and date, enters patient details, submits the form, and receives a local reference/serial and a pending status. The interface makes clear that this is a demo record.
+
+\textbf{Journey C - Review a booking:} a visitor checks a locally saved booking in the baseline site, or reviews demo appointment cards in the OOP page. Administrator features in the baseline demonstrate confirmation, cancellation, and export/backup workflows.
+
+\section{Requirements}
+\subsection{Functional requirements}
+\small
+\begin{longtable}{p{1.2cm}p{4.0cm}p{9.0cm}}
+\toprule \textbf{ID} & \textbf{Requirement} & \textbf{Description / acceptance}\\\midrule
+\endfirsthead
+\toprule \textbf{ID} & \textbf{Requirement} & \textbf{Description / acceptance}\\\midrule
+\endhead
+FR-01 & Search/filter doctors & The user can filter available directory entries by hospital, department, speciality and doctor name. Filters combine to narrow results.\\
+FR-02 & Doctor detail & The user can open a profile/action view and see department, speciality, facility and visit schedule supplied by the dataset.\\
+FR-03 & Appointment request & The user can select a doctor/date and submit patient details after required-field validation.\\
+FR-04 & Serial and reference & The prototype assigns a local appointment reference and serial based on existing records for that doctor/facility/date.\\
+FR-05 & Appointment status & The baseline site provides a status lookup using registration number and mobile, with the final/current serial display.\\
+FR-06 & Appointment slip & The baseline site supports print and a PDF download when the optional PDF library is available.\\
+FR-07 & Admin management & The baseline demo supports login flow, confirmation/cancellation, and visible appointment records.\\
+FR-08 & Export and backup & The admin-facing tools can export appointment rows and save/restore a browser backup; XLSX depends on the optional CDN library.\\
+FR-09 & Browser persistence & Demo records are saved and retrieved from local browser storage.\\
+FR-10 & OOP interface & The added interface instantiates domain/service/UI classes and supports doctor search, booking, local persistence and list rendering.\\
+FR-11 & Responsiveness & The interface remains usable on desktop and narrow mobile screens.\\
+FR-12 & Safety disclosure & UI and documentation state that data are demonstrative and not a real appointment service.\\
+\bottomrule
+\end{longtable}
+\normalsize
+
+\subsection{Non-functional requirements}
+\begin{tabularx}{\textwidth}{p{1.5cm}p{3.2cm}X}
+\toprule \textbf{ID} & \textbf{Quality attribute} & \textbf{Requirement}\\\midrule
+NFR-01 & Usability & Core tasks should be understandable without installation beyond opening the website; forms and errors use readable labels.\\
+NFR-02 & Performance & Filtering of the bundled dataset should feel responsive on a typical student laptop; no server round trip is required.\\
+NFR-03 & Compatibility & Target modern Chrome, Edge, and Firefox; optional CDN features may be unavailable offline.\\
+NFR-04 & Maintainability & HTML, CSS, data, and JavaScript responsibilities are separated; files and methods use descriptive names.\\
+NFR-05 & Accessibility & Use semantic headings, form labels, visible focus, live status messages, and keyboard-operable native controls.\\
+NFR-06 & Privacy & Only synthetic data should be used during evaluation. Browser storage is not a secure vault.\\
+NFR-07 & Reliability & Invalid JSON/storage failures should fail clearly where feasible; restore/export operations should be tested on copies.\\
+NFR-08 & Traceability & Requirements map to prototype features, diagrams, tests and milestones.\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Key business rules}
+\begin{enumerate}
+  \item Doctor availability is derived from the schedule codes currently supplied with each record; ``not specified'' is not proof that a doctor is actually available.
+  \item The prototype caps appointments at 15 per doctor/facility/date in the demo logic. This capacity is configurable and must not be interpreted as a hospital policy.
+  \item An appointment starts in a pending state. The OOP page never claims to contact a facility or confirm a real appointment.
+  \item The original baseline uses registration/mobile matching for its local status flow. This is demonstration logic, not an appropriate production authentication mechanism.
+  \item All date/serial decisions in the current browser-only model are local and may be inconsistent across browsers or devices.
+\end{enumerate}
+
+\section{Software Process Model}
+\subsection{Selected model: Incremental development with short feedback cycles}
+An incremental model is chosen because the project has separable features that can be designed, demonstrated and tested progressively. Each increment adds a coherent capability while keeping the previous version runnable. A short review at the end of each iteration gathers feedback from a supervisor or peer reviewer. The model is appropriate for an academic prototype with limited infrastructure; it does not eliminate the need for requirements, design, testing, and controlled releases.
+
+\subsection{Iteration strategy}
+\begin{tabularx}{\textwidth}{p{1.4cm}p{3.0cm}X}
+\toprule \textbf{Increment} & \textbf{Primary focus} & \textbf{Exit evidence}\\\midrule
+I1 & Requirements and design & Scope, requirements catalogue, use cases, process model, initial diagram review.\\
+I2 & Search and profile UI & Responsive directory, filters, empty state, checked dataset format.\\
+I3 & Appointment workflow & Patient form, date rules, serial/reference generation, slip/status path.\\
+I4 & Admin and OOP interface & Demo management/export path, seven-class interface, diagrams aligned to code.\\
+I5 & Verification and release & Test results, defects resolved or recorded, final documentation, tagged demo package.\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Configuration and change control}
+Git is the version-control system. Each meaningful change should have a descriptive commit. Requirements or schedule changes are logged in an issue or `CHANGELOG.md`; before a milestone, the interface and documentation are checked together. A release candidate is not considered complete until the acceptance checklist, diagrams, and setup instructions agree with the code. A public repository must not include real patient data, passwords, secrets, or private hospital records.
+
+\section{Architecture and Technology}
+\subsection{Current prototype architecture}
+The baseline is a static, single-browser application. `index.html` defines the page structure and loads CSS and plain JavaScript. `data.js` contains the doctor/facility records and demonstration settings; `geo.js` holds Bangladesh division/district/upazila data. Other scripts implement utilities, browser storage, dropdowns, doctor search/profile, appointment booking, slips, export/backup, administrator actions, status lookup and startup. Browser `localStorage` stores appointment and patient records; `sessionStorage` keeps the demo admin session timestamp. No shared backend exists.
+
+\begin{center}
+\fbox{\parbox{0.92\textwidth}{\centering\textbf{Browser UI} $\rightarrow$ \textbf{JavaScript feature modules} $\rightarrow$ \textbf{data.js + browser storage}\\[3pt]\small All state remains in this browser profile; it is not synchronized to a clinic.}}
+\end{center}
+
+\subsection{Technology selection rationale}
+\begin{tabularx}{\textwidth}{p{3.0cm}X}
+\toprule \textbf{Technology} & \textbf{Reason for use / limitation}\\\midrule
+HTML5 & Semantic page layout and native forms with no build step.\\
+CSS3 & Responsive cards, typography, layout and visual states.\\
+Vanilla JavaScript & Search and booking logic that can run without a framework; the baseline is modular scripts.\\
+localStorage / sessionStorage & Suitable for a local demo and refresh persistence; unsuitable for shared production records.\\
+SheetJS (optional CDN) & Produces XLSX exports when internet/library loading is available; a CSV fallback exists in the baseline.\\
+jsPDF (optional CDN) & Produces a downloadable appointment-slip PDF when loaded; printing is also available in the baseline.\\
+Graphviz DOT & Editable source for diagrams; PDF, PNG and SVG renderings are provided.\\
+LaTeX / pdfLaTeX & Reproducible academic proposal source and PDF output.\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Production target architecture (future extension)}
+For a production deployment, the browser should call a server-side API; the API should enforce authentication, authorization, date/slot rules and data validation; a database should store hospitals, doctors, patients, appointments and administrative actions; and a notification gateway may send approved messages. Admin credentials must be hashed and validated server-side, transport should use HTTPS, and sensitive access should be audited. This target architecture is a future recommendation, not a capability delivered by the current static prototype.
+
+\section{Data and Domain Model}
+\subsection{Main data entities}
+\begin{itemize}
+  \item \textbf{Doctor:} identifier, hospital, name, department, speciality, days and visit time.
+  \item \textbf{Patient:} name, mobile and registration number in the demo flow.
+  \item \textbf{Appointment:} reference, doctor/facility association, date, serial, patient, status and creation time.
+  \item \textbf{Hospital:} facility name and future verified contact/address fields.
+  \item \textbf{Admin user:} a future server-managed account and role; the baseline login is demonstrative only.
+\end{itemize}
+
+\subsection{Data quality and privacy}
+The supplied list is treated as a starter dataset. Before publication as a directory, every doctor/facility relationship, spelling, speciality, clinic address and schedule must be validated by an authorized source, and an owner plus review date should be maintained for each entry. The demo must use fictional patient inputs. In a real system, collection of personal information requires a documented purpose, limited retention, role-based access, transport and storage protections, backup controls, and review against applicable law and institutional policy. Do not use the academic prototype to book medical care.
+
+\section{Analysis and Design Diagrams}
+The diagram set separates the current static prototype from proposed production concepts. DFDs describe the current data movement; the ERD shows a normalized target model for a future backend; the class and object diagrams map directly to the added OOP interface. The DOT source for every diagram is included so it can be edited and re-rendered.
+
+\diagrampage{Data Flow Diagram - Context / Level 0}{dfd-context.pdf}{External actors and the overall system boundary. The dotted note records the current browser-only limitation.}
+\diagrampage{Data Flow Diagram - Level 1}{dfd-level1.pdf}{Decomposition of search, booking, status lookup, and demo administration/export. Data stores are the bundled doctor dataset and browser storage.}
+\diagrampage{Use Case Diagram}{use-case.pdf}{Primary patient/visitor and admin use cases for the submitted prototype. Dashed arrows identify workflow/authorization dependencies, not backend security guarantees.}
+\diagrampage{Activity Diagram - Appointment Booking}{activity-booking.pdf}{Booking path with availability, form validation, daily capacity, serial generation and failure paths.}
+\diagrampage{Entity-Relationship Diagram}{erd.pdf}{Normalized logical data model recommended for a future server-backed implementation. It is not a claim that these database tables exist in the current prototype.}
+\diagrampage{Class Diagram}{class-diagram.pdf}{Seven classes implemented in `prototype/js/app.js`: Doctor, Patient, Appointment, DoctorDirectory, LocalStorageRepository, AppointmentService and PrototypeUI.}
+\diagrampage{Object Diagram}{object-diagram.pdf}{Illustrative runtime objects and links. Sample names, phone and references are synthetic and do not represent a real booking.}
+
+\section{OOP Interface Prototype}
+\subsection{Implementation classes}
+The additional interface in `prototype/index.html` loads the bundled doctor dataset and runs the object-oriented implementation in `prototype/js/app.js`. It contains seven classes (more than the required five), each with a clear responsibility.
+
+\begin{tabularx}{\textwidth}{p{3.3cm}X p{3.3cm}}
+\toprule \textbf{Class} & \textbf{Responsibility} & \textbf{Diagram traceability}\\\midrule
+\texttt{Doctor} & Encapsulates doctor/facility fields, search matching and weekday availability. & Doctor entity and methods\\
+\texttt{Patient} & Holds submitted patient details and validates name/mobile input. & Patient association\\
+\texttt{Appointment} & Represents a booking reference, doctor, patient, date, serial and status. & Appointment entity\\
+\texttt{DoctorDirectory} & Owns the doctor collection and supports search/find-by-ID. & Directory composition\\
+\texttt{LocalStorageRepository} & Reads/writes serialized demo appointment records. & Persistence dependency\\
+\texttt{AppointmentService} & Enforces date, availability and demo-capacity rules; creates and lists bookings. & Booking/service logic\\
+\texttt{PrototypeUI} & Binds events, renders results/messages and connects the interface to services. & UI controller\\
+\bottomrule
+\end{tabularx}
+
+\subsection{How to run the OOP interface}
+Open the repository folder in VS Code and use Live Server on `prototype/index.html`, or use a local server that serves the repository root. The page loads `../js/data.js`; therefore it should be run from the repository structure rather than copied alone. Search for a doctor, choose a card, enter a synthetic name/mobile/date, then create and review a demo booking. Data persist under a separate `localStorage` key from the baseline site. Use the Clear button to delete only records created by this OOP demo in the current browser origin.
+
+\subsection{Traceability}
+The class diagram lists the same seven class names and their principal methods. The object diagram shows sample instances of Doctor, Patient and Appointment. The interface demonstrates search, validation, booking, local persistence and a list of saved records. The production ERD is intentionally distinct: it describes how the project should be normalized if a server-side database is later implemented.
+
+\section{Project Schedule and Gantt Chart}
+\subsection{Planning calendar}
+The proposed work window is 2 November 2026 to 15 January 2027 (11 planning weeks, with the final week ending on 15 January). Dates are planning assumptions and should be adjusted with the course instructor. Week 1 begins on 2 November 2026. Each week ends with a runnable increment or an inspectable document. The schedule includes the existing baseline prototype; tasks therefore include review, validation, OOP demonstration, refinements and evidence rather than assuming that every feature must be created from zero.
+
+\begin{landscape}
+\thispagestyle{fancy}
+\subsection*{11-week Gantt chart}
+\begin{center}
+\begin{ganttchart}[
+  hgrid, vgrid, x unit=1.00cm, y unit chart=0.52cm,
+  title height=1, title label font=\small\bfseries,
+  bar height=0.52, bar label font=\scriptsize,
+  milestone height=0.55, milestone label font=\scriptsize,
+  group label font=\small\bfseries,
+  bar/.append style={fill=teal!78}, bar label font=\scriptsize,
+  milestone/.append style={fill=gold},
+  link/.style={-latex, line width=.7pt, draw=navy}
+]{1}{11}
+\gantttitle{Proposed completion schedule}{11}\\
+\gantttitlelist{1,...,11}{1}\\
+\ganttbar[name=req]{Requirements, scope and acceptance}{1}{1}\\
+\ganttbar[name=design]{UML, data model and UI design}{1}{2}\\
+\ganttbar[name=data]{Dataset review and data-quality notes}{2}{3}\\
+\ganttbar[name=search]{Directory search and profile refinement}{3}{4}\\
+\ganttbar[name=booking]{Booking, validation and serial workflow}{4}{6}\\
+\ganttbar[name=admin]{Status, admin/export and OOP interface}{5}{7}\\
+\ganttbar[name=test]{Functional, negative and responsive tests}{7}{8}\\
+\ganttbar[name=privacy]{Privacy, risk and limitation review}{7}{9}\\
+\ganttbar[name=docs]{Proposal, repository and demo packaging}{8}{11}\\
+\ganttmilestone[name=ms1]{SRS approved}{1}\\
+\ganttmilestone[name=ms2]{Design baseline}{2}\\
+\ganttmilestone[name=ms3]{Search demo}{4}\\
+\ganttmilestone[name=ms4]{Booking increment}{6}\\
+\ganttmilestone[name=ms5]{Test release candidate}{8}\\
+\ganttmilestone[name=ms6]{Final delivery}{11}
+\ganttlink{req}{design}\ganttlink{design}{search}\ganttlink{search}{booking}\ganttlink{booking}{admin}\ganttlink{admin}{test}\ganttlink{test}{docs}
+\end{ganttchart}
+\end{center}
+\small\textit{Week guide: W1 Nov 2-8; W2 Nov 9-15; W3 Nov 16-22; W4 Nov 23-29; W5 Nov 30-Dec 6; W6 Dec 7-13; W7 Dec 14-20; W8 Dec 21-27; W9 Dec 28-Jan 3; W10 Jan 4-10; W11 Jan 11-15.}
+\end{landscape}
+
+\subsection{Milestones and deliverables}
+\begin{longtable}{p{1.5cm}p{2.1cm}p{2.2cm}p{7.5cm}}
+\toprule \textbf{Milestone} & \textbf{Target} & \textbf{Owner} & \textbf{Deliverable / exit condition}\\\midrule
+M1 & Week 1 & Student developer & Scope, objectives, stakeholder list, requirements and acceptance criteria reviewed.\\
+M2 & Week 2 & Student developer & DFD, use case, activity, ERD, class and object diagrams baselined; source folder structure agreed.\\
+M3 & Week 4 & Student developer & Search/profile interface demonstrable; search, empty state and sample data caveat checked.\\
+M4 & Week 6 & Student developer & Booking workflow validates input and date, assigns reference/serial and shows a demo pending state.\\
+M5 & Week 8 & Student developer + peer reviewer & Test plan executed; defects recorded; layout checked on desktop and mobile viewport.\\
+M6 & Week 11 & Student developer & LaTeX source/PDF, diagrams and sources, README, implementation code, limitations and demo evidence packaged for submission.\\
+\bottomrule
+\end{longtable}
+
+\subsection{Work breakdown structure}
+\begin{enumerate}
+  \item \textbf{Project initiation:} problem statement, scope, stakeholders, constraints and success criteria.
+  \item \textbf{Analysis/design:} functional/non-functional requirements, data definitions, UML/DFD/ERD diagrams and initial UI flow.
+  \item \textbf{Build:} integrate directory search, booking/status pathways, demo admin/export path and the seven-class OOP interface.
+  \item \textbf{Verification:} test cases, negative input validation, persistence refresh check, responsive layout review and defect fixes.
+  \item \textbf{Release:} repository cleanup, setup guide, source/PDF sync, versioned final package and live demonstration.
+\end{enumerate}
+
+\subsection{Deliverables register}
+\begin{tabularx}{\textwidth}{p{1.5cm}p{4.2cm}X}
+\toprule \textbf{ID} & \textbf{Deliverable} & \textbf{Contents}\\\midrule
+D-01 & Project proposal & Goals, scope, stakeholders, requirements, process model, constraints and references.\\
+D-02 & Design pack & Two DFD views, use-case, activity, ERD, class and object diagrams; editable `.dot` sources and rendered formats.\\
+D-03 & Baseline web prototype & Organized HTML, CSS, data and JavaScript modules; doctor finder and demo appointment workflow.\\
+D-04 & OOP interface & Runnable interface implementing seven classes and matching the class diagram.\\
+D-05 & Test evidence & Test plan, cases, expected results, observed results and known limitations.\\
+D-06 & Reproducible documentation & README, run instructions, code guide, LaTeX file and compiled PDF.\\
+D-07 & Final demo package & Clean repository ZIP and source suitable for pushing to a student's GitHub account.\\
+\bottomrule
+\end{tabularx}
+
+\section{Testing and Quality Assurance}
+\subsection{Test levels}
+\begin{itemize}
+  \item \textbf{Unit/logic checks:} date rejection, doctor availability by encoded weekday, name/mobile validation, serial calculation and storage parsing.
+  \item \textbf{Integration checks:} search selection passes the correct doctor ID to the form; successful submission appears in the appointment list; refresh restores the saved list.
+  \item \textbf{UI checks:} readable cards, mobile layout, keyboard operation, focus, visible status/error text and no-results state.
+  \item \textbf{Regression checks:} run the original baseline site after reorganizing the folders; confirm script paths, image paths, booking/status/admin flows and optional exports.
+  \item \textbf{Documentation checks:} verify diagram labels against classes and feature behaviour, compile LaTeX, inspect PDF pages, and make sure repository links are relative and valid.
+\end{itemize}
+
+\subsection{Representative test cases}
+\small
+\begin{longtable}{p{1.15cm}p{3.7cm}p{5.4cm}p{2.9cm}}
+\toprule \textbf{ID} & \textbf{Scenario} & \textbf{Steps / input} & \textbf{Expected result}\\\midrule
+TC-01 & Search match & Search for an existing department or doctor token. & Matching cards are displayed; count updates.\\
+TC-02 & Search no result & Search for a deliberately absent token. & Clear no-results message; no broken layout.\\
+TC-03 & Missing patient name & Choose doctor/date; submit with name empty. & Browser/form validation blocks submission.\\
+TC-04 & Invalid mobile & Enter fewer than 7 digits. & Service returns an input-validation message.\\
+TC-05 & Past appointment date & Try a date earlier than today. & Submission is rejected with an actionable message.\\
+TC-06 & Unavailable weekday & Choose a doctor whose schedule excludes the selected weekday. & Submission is rejected; no appointment is stored.\\
+TC-07 & Successful booking & Submit valid synthetic details for a future listed day. & New reference/serial appears in the saved demo list.\\
+TC-08 & Persistence & Refresh the same page/origin after booking. & The demo record remains visible.\\
+TC-09 & Separate storage & Compare OOP demo with baseline site local storage keys. & OOP demo records are isolated under their own key.\\
+TC-10 & Capacity limit & Seed 15 matching doctor/facility/date records, then submit one more. & Capacity message; the 16th record is not created.\\
+TC-11 & Responsive layout & Inspect at desktop and narrow mobile widths. & Controls remain visible and operable without horizontal overflow.\\
+TC-12 & Baseline regression & Open root `index.html`; try search, booking, status and admin demo. & Local scripts/images load; expected demo flows remain available.\\
+\bottomrule
+\end{longtable}
+\normalsize
+
+\subsection{Defect severity}
+Critical issues block the demo or risk data corruption; high issues break booking/status flows; medium issues impair a secondary action; low issues are cosmetic or copy. Each defect should be recorded with reproduction steps, expected/actual output, severity and resolution status. No production-readiness claim is made from passing browser-only tests.
+
+\section{Risk Management}
+\begin{longtable}{p{0.8cm}p{3.2cm}p{1.3cm}p{1.3cm}p{7.2cm}}
+\toprule \textbf{ID} & \textbf{Risk} & \textbf{Likelihood} & \textbf{Impact} & \textbf{Mitigation / response}\\\midrule
+R1 & Incorrect or outdated doctor/facility information & High & High & Mark data as demo; verify listings with authorized facilities; record source, owner and last-reviewed date before public release.\\
+R2 & Local storage is mistaken for a real booking service & Medium & High & Show a persistent prototype disclaimer and pending status; do not advertise the site as an operational service.\\
+R3 & Personal data exposure in browser storage or screenshots & Medium & High & Use synthetic details only; never commit real patient data; clear demo storage before public demonstrations.\\
+R4 & Admin interface is treated as secure authentication & Medium & High & State limitation; production needs server-side auth, password hashing, authorization, audit trails and session controls.\\
+R5 & CDN unavailable so XLSX/PDF function is missing & Medium & Medium & Test the fallback path; document internet dependency; retain browser print/CSV fallback where provided.\\
+R6 & Inconsistent serials across browsers/devices & High & High & Explain local-only behaviour; production serial allocation must be transactionally enforced by the server/database.\\
+R7 & Schedule slips or scope growth & Medium & Medium & Use weekly increments, define exit criteria and defer external integrations from the initial scope.\\
+R8 & Diagrams and implementation drift apart & Medium & Medium & Review traceability at each milestone; keep diagram sources in the same repository and regenerate renderings after edits.\\
+\bottomrule
+\end{longtable}
+
+\section{Feasibility and Resource Plan}
+\subsection{Technical feasibility}
+The baseline technologies run in modern browsers without a framework or build system, reducing environment complexity. Graphviz produces editable diagrams and LaTeX produces a reproducible report. The main technical limitation is architectural: local storage is device-local and cannot coordinate appointment capacity across users. A production deployment is feasible only after adding a backend and validating operational workflows.
+
+\subsection{Economic feasibility}
+The academic prototype uses free/open tooling and requires no server hosting to demonstrate locally. Costs for a live service (domain/hosting, managed database, monitoring, messaging, security review and data verification) are not estimated because deployment requirements, expected volume and facility agreements are not yet known. Those costs should be estimated as a separate production feasibility study.
+
+\subsection{Operational feasibility}
+A simple finder and guided booking form can be demonstrated to peers. Real operation would need an assigned data owner, clinic confirmation process, user support, correction requests, incident handling, backup/retention rules and a clear disclaimer for schedule changes. Hospital personnel must validate any operational process before deployment.
+
+\subsection{Resources}
+\begin{itemize}
+  \item Student developer: requirements, coding, diagrams, test execution and documentation.
+  \item Supervisor/peer reviewer: periodic feedback and acceptance review.
+  \item Development tools: VS Code or another editor, browser, Git, Graphviz and pdfLaTeX.
+  \item Test resources: synthetic appointments, multiple browser widths, and a clean browser profile for persistence checks.
+\end{itemize}
+
+\section{Limitations and Future Enhancements}
+\subsection{Known limitations of the submitted prototype}
+\begin{itemize}
+  \item Browser-only persistence; there is no central source of truth, multi-user synchronization, or collision-safe appointment allocation.
+  \item Bundled doctor/hospital listings and schedules are unverified sample data.
+  \item Admin login and appointment lookup are demonstration flows and are not suitable as production security boundaries.
+  \item Optional download/export libraries depend on external CDN availability.
+  \item No SMS, email, payment, hospital management system, or real calendar integration exists.
+\end{itemize}
+
+\subsection{Future roadmap}
+\begin{enumerate}
+  \item Validate and version the doctor/facility dataset with an authorized data steward.
+  \item Add a backend REST API and relational database with unique constraints and transactional serial allocation.
+  \item Add secure authentication, role-based authorization, session expiration, rate limiting and audit logs.
+  \item Add verified notifications and hospital-side appointment confirmation, with explicit consent and reliable contact channels.
+  \item Add automated tests, CI checks, deployment configuration, monitoring, backup/restore drills and security review.
+  \item Conduct usability testing with representative users and document outcomes before public release.
+\end{enumerate}
+
+\section{Ethics, Privacy, and Responsible Use}
+The project concerns a healthcare-adjacent workflow and can be misunderstood as an official clinical service. The interface and repository therefore identify it as a prototype. Doctor data must not be presented as verified without evidence, and real patient names, phone numbers, registration identifiers, health details or credentials must never be included in source control, sample screenshots or test fixtures. A future deployment must establish an appropriate lawful basis and purpose for data processing, limit access and retention, protect data in transit and at rest, define correction/deletion processes and obtain institutional/legal review. The website must not be used for emergencies or medical decision-making.
+
+\section{Repository Structure and Reproducibility}
+The repository is organized to keep the original static application and the OOP demonstration separate while sharing the bundled doctor dataset.
+\begin{lstlisting}[basicstyle=\ttfamily\small,breaklines=true,frame=single,rulecolor=\color{lightline},backgroundcolor=\color{pale}]
+find-your-doctor-capstone/
+|-- index.html                 # Baseline application
+|-- css/style.css              # Baseline styles
+|-- js/                        # Data and feature modules
+|-- images/doctor.png
+|-- prototype/
+|   |-- index.html             # OOP interface
+|   |-- css/app.css
+|   `-- js/app.js               # Seven implemented classes
+|-- docs/diagrams/             # DOT + PDF + PNG + SVG
+|-- docs/testing/               # Test plan and manual test record template
+|-- proposal.tex                # Editable report source
+|-- proposal.pdf                # Compiled proposal
+|-- README.md
+|-- RUN-IN-VSCODE.md
+`-- .vscode/
+\end{lstlisting}
+
+\subsection{Reproducible run steps}
+\begin{enumerate}
+  \item Extract the repository ZIP and open its folder in VS Code.
+  \item Use Live Server on root `index.html` for the baseline application.
+  \item Use Live Server on `prototype/index.html` for the OOP class-based demo.
+  \item Use synthetic data only. Test on a fresh browser profile when checking first-run behaviour.
+  \item Compile the report in the repository root with `pdflatex proposal.tex` (run twice to update the table of contents and references). The precompiled `proposal.pdf` is included.
+\end{enumerate}
+
+\section{Conclusion}
+Find Your Doctor provides a practical capstone scope linking requirements engineering, interface design, core application logic, testing, and repository delivery. The current static application is a useful demonstration baseline, while the additional OOP interface fulfills the class-based design requirement with seven explicit classes. The diagrams cover data flow, user goals, control flow, logical data design, class structure and example objects. The 11-week incremental plan establishes reviewable milestones and deliverables. The most important boundary is that a browser-only academic demonstration is not a real booking platform: verified data, shared server-side processing, secure authentication, operational agreement and privacy review would be prerequisites for production use.
+
+\section{References}
+\begin{enumerate}
+  \item Sommerville, I. (2016). \textit{Software Engineering} (10th ed.). Pearson.
+  \item Object Management Group. (2017). \textit{OMG Unified Modeling Language (OMG UML), Version 2.5.1}. https://www.omg.org/spec/UML/2.5.1
+  \item ISO/IEC/IEEE. (2018). \textit{ISO/IEC/IEEE 29148:2018 Systems and software engineering - Life cycle processes - Requirements engineering}.
+  \item Project code and accompanying guide supplied with this capstone work. The guide describes a browser-only HTML/CSS/JavaScript implementation with localStorage persistence and optional client-side export libraries.
+\end{enumerate}
+
+\appendix
+\section{Submission Checklist}
+\begin{itemize}[label=$\square$]
+  \item Proposal PDF compiles, opens and has no clipped diagrams or headings.
+  \item Editable LaTeX source is included in the GitHub repository.
+  \item DFD, use-case, activity, ERD, class and object diagrams are available as PDF/PNG/SVG with editable DOT files.
+  \item OOP prototype demonstrates at least five classes from the class diagram.
+  \item README explains both baseline and OOP demo launch paths.
+  \item The limitations and synthetic-data disclaimer are visible and clear.
+  \item Manual test results are filled in before final submission.
+  \item Repository is pushed to GitHub and its public URL is pasted into the course submission page.
+\end{itemize}
+
+\end{document}

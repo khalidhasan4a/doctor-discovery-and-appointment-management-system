@@ -1,0 +1,23 @@
+digraph UseCase {
+ graph [rankdir=LR, bgcolor="white", pad="0.25", nodesep="0.35", ranksep="0.5", fontname="DejaVu Sans", labelloc="t", label="USE CASE DIAGRAM", fontsize=20, fontcolor="#16324F", compound=true];
+ node [fontname="DejaVu Sans", fontsize=10, color="#31556B", fontcolor="#16324F", penwidth=1.2, style="filled", fillcolor="#F4FAFC"];
+ edge [fontname="DejaVu Sans", fontsize=8.5, color="#147D86", fontcolor="#305A68", penwidth=1.1, arrowsize=0.7];
+ patient [shape=box, style="rounded,filled", fillcolor="#E6F5F4", label="PATIENT / VISITOR\n(actor)"];
+ admin [shape=box, style="rounded,filled", fillcolor="#FFF1D7", label="ADMINISTRATOR\n(actor)"];
+ subgraph cluster_system {
+   label="Find Your Doctor — Prototype System"; color="#9BBBCB"; style="rounded,dashed"; fontname="DejaVu Sans"; fontsize=12; fontcolor="#16324F";
+   search [shape=ellipse, label="Search / Filter\nDoctors"];
+   profile [shape=ellipse, label="View Doctor\nProfile"];
+   book [shape=ellipse, label="Book Appointment"];
+   slip [shape=ellipse, label="Print / Download\nAppointment Slip"];
+   status [shape=ellipse, label="Check Appointment\nStatus"];
+   signin [shape=ellipse, label="Sign in to Demo\nAdmin Panel"];
+   manage [shape=ellipse, label="Confirm / Cancel\nAppointment"];
+   report [shape=ellipse, label="Export / Backup\nAppointment Data"];
+ }
+ patient -> search; patient -> profile; patient -> book; patient -> slip; patient -> status;
+ admin -> signin; admin -> manage; admin -> report;
+ book -> slip [style=dashed, label="after booking"];
+ signin -> manage [style=dashed, label="authorizes", arrowhead=vee];
+ signin -> report [style=dashed, label="authorizes", arrowhead=vee];
+}

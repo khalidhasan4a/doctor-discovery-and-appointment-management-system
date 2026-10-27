@@ -1,0 +1,31 @@
+digraph RepositoryStructure {
+  graph [rankdir=TB, bgcolor="white", pad="0.25", nodesep="0.55", ranksep="0.55", splines=polyline, fontname="Arial", labelloc="t", label="FIND YOUR DOCTOR - REPOSITORY FILE MAP", fontsize=22, fontcolor="#16324F"];
+  node [shape=plain, fontname="Arial"];
+  edge [color="#688A9C", penwidth=1.25, arrowsize=0.7];
+
+  root [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="12"><TR><TD BGCOLOR="#16324F"><FONT COLOR="white" POINT-SIZE="14"><B>find-your-doctor-capstone/</B></FONT><BR/><FONT COLOR="white" POINT-SIZE="10">Repository root</FONT></TD></TR></TABLE>>];
+
+  website [label=<<TABLE BORDER="1" COLOR="#A6D6D4" CELLBORDER="0" CELLSPACING="0" CELLPADDING="9"><TR><TD BGCOLOR="#E0F4F3"><FONT COLOR="#147D86" POINT-SIZE="12"><B>BASELINE WEBSITE</B></FONT></TD></TR><TR><TD ALIGN="LEFT" BGCOLOR="#F6FCFB"><FONT POINT-SIZE="10"><B>index.html</B> - main page<BR/><B>css/style.css</B> - layout and colours<BR/><B>js/*.js</B> - search, booking, admin, status,<BR/>sample data and local storage<BR/><B>images/doctor.png</B> - placeholder image</FONT></TD></TR></TABLE>>];
+
+  oop [label=<<TABLE BORDER="1" COLOR="#C6B7E8" CELLBORDER="0" CELLSPACING="0" CELLPADDING="9"><TR><TD BGCOLOR="#EEE7FB"><FONT COLOR="#6547A3" POINT-SIZE="12"><B>OOP INTERFACE</B></FONT></TD></TR><TR><TD ALIGN="LEFT" BGCOLOR="#FBF9FF"><FONT POINT-SIZE="10"><B>prototype/index.html</B> - interface<BR/><B>prototype/css/app.css</B> - styles<BR/><B>prototype/js/app.js</B> - seven JavaScript classes</FONT></TD></TR></TABLE>>];
+
+  docs [label=<<TABLE BORDER="1" COLOR="#E4CF9A" CELLBORDER="0" CELLSPACING="0" CELLPADDING="9"><TR><TD BGCOLOR="#FFF1CD"><FONT COLOR="#86621B" POINT-SIZE="12"><B>DOCUMENTATION AND DIAGRAMS</B></FONT></TD></TR><TR><TD ALIGN="LEFT" BGCOLOR="#FFFCF4"><FONT POINT-SIZE="10"><B>docs/CODE-GUIDE.md</B> - code guide<BR/><B>docs/PROJECT-SCHEDULE.md</B> - milestones<BR/><B>docs/diagrams/</B> - editable DOT and rendered<BR/>PDF / PNG / SVG diagrams<BR/><B>docs/testing/</B> - test plan and test record<BR/><B>docs/GITHUB-CUSTOMIZATION.md</B> - GitHub help</FONT></TD></TR></TABLE>>];
+
+  report [label=<<TABLE BORDER="1" COLOR="#AFC7E8" CELLBORDER="0" CELLSPACING="0" CELLPADDING="9"><TR><TD BGCOLOR="#E7F0FF"><FONT COLOR="#2459A9" POINT-SIZE="12"><B>ACADEMIC PROPOSAL</B></FONT></TD></TR><TR><TD ALIGN="LEFT" BGCOLOR="#F8FAFF"><FONT POINT-SIZE="10"><B>proposal.tex</B> - editable LaTeX source<BR/><B>proposal.pdf</B> - compiled 27-page proposal<BR/>Course details, requirements, Gantt chart,<BR/>deliverables and all required diagrams</FONT></TD></TR></TABLE>>];
+
+  github [label=<<TABLE BORDER="1" COLOR="#B6C8D3" CELLBORDER="0" CELLSPACING="0" CELLPADDING="9"><TR><TD BGCOLOR="#EAF1F5"><FONT COLOR="#16324F" POINT-SIZE="12"><B>REPOSITORY AND PUBLISHING</B></FONT></TD></TR><TR><TD ALIGN="LEFT" BGCOLOR="#F8FBFD"><FONT POINT-SIZE="10"><B>README.md</B> - overview and setup<BR/><B>RUN-IN-VSCODE.md</B> - local run instructions<BR/><B>package.json + scripts/</B> - automated checks<BR/><B>.github/workflows/deploy.yml</B> - Pages workflow<BR/><B>LICENSE</B> and <B>.vscode/</B> settings</FONT></TD></TR></TABLE>>];
+
+  {rank=same; website; oop;}
+  {rank=same; docs; report;}
+  {rank=same; github;}
+
+  root -> website;
+  root -> oop;
+  root -> docs;
+  root -> report;
+  root -> github;
+  website -> docs [style=invis, weight=12];
+  oop -> report [style=invis, weight=12];
+  docs -> github [style=invis, weight=12];
+  report -> github [style=invis, weight=12];
+}

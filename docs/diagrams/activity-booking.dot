@@ -1,0 +1,30 @@
+digraph ActivityBooking {
+ graph [rankdir=TB, bgcolor="white", pad="0.25", nodesep="0.35", ranksep="0.42", fontname="DejaVu Sans", labelloc="t", label="ACTIVITY DIAGRAM — APPOINTMENT BOOKING", fontsize=20, fontcolor="#16324F"];
+ node [fontname="DejaVu Sans", fontsize=10, color="#31556B", fontcolor="#16324F", penwidth=1.2, style="filled", fillcolor="#F4FAFC"];
+ edge [fontname="DejaVu Sans", fontsize=9, color="#147D86", fontcolor="#305A68", penwidth=1.2, arrowsize=0.7];
+ start [shape=circle, label="", width=0.22, height=0.22, fillcolor="#16324F", color="#16324F"];
+ search [shape=box, style="rounded,filled", label="Search doctors and choose a profile"];
+ date [shape=box, style="rounded,filled", label="Select appointment date"];
+ dayok [shape=diamond, label="Doctor available\non selected day?", fillcolor="#FFF1D7"];
+ details [shape=box, style="rounded,filled", label="Enter patient details"];
+ valid [shape=diamond, label="Required fields\nvalid?", fillcolor="#FFF1D7"];
+ limit [shape=diamond, label="Daily capacity\navailable?", fillcolor="#FFF1D7"];
+ save [shape=box, style="rounded,filled", label="Create appointment and assign serial"];
+ receipt [shape=box, style="rounded,filled", label="Show booking number and print/download slip"];
+ error1 [shape=box, style="rounded,filled", fillcolor="#FCE8E6", color="#B45B55", label="Choose another date / doctor"];
+ error2 [shape=box, style="rounded,filled", fillcolor="#FCE8E6", color="#B45B55", label="Show validation message; correct form"];
+ error3 [shape=box, style="rounded,filled", fillcolor="#FCE8E6", color="#B45B55", label="Show no-slots message"];
+ end [shape=doublecircle, label="", width=0.22, height=0.22, fillcolor="#16324F", color="#16324F"];
+ start -> search -> date -> dayok;
+ dayok -> details [label="yes"];
+ dayok -> error1 [label="no"];
+ error1 -> date;
+ details -> valid;
+ valid -> limit [label="yes"];
+ valid -> error2 [label="no"];
+ error2 -> details;
+ limit -> save [label="yes"];
+ limit -> error3 [label="no"];
+ error3 -> date;
+ save -> receipt -> end;
+}

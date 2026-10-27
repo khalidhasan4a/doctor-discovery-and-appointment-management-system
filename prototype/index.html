@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Object-oriented demonstration interface for the Find Your Doctor capstone project.">
+  <title>Find Your Doctor | OOP Prototype</title>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="brand-mark" aria-hidden="true">+</div>
+      <div>
+        <p class="eyebrow">CAPSTONE PROJECT · OOP PROTOTYPE</p>
+        <h1>Find Your Doctor</h1>
+        <p class="subtitle">Search local doctor listings and try a sample appointment workflow.</p>
+      </div>
+      <span class="demo-pill">DEMO DATA</span>
+    </div>
+  </header>
+  <main class="layout">
+    <section class="panel directory-panel" aria-labelledby="directory-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">01 / FIND</p><h2 id="directory-title">Doctor directory</h2></div>
+        <span id="doctor-count" class="count-pill">Loading…</span>
+      </div>
+      <label class="field-label" for="doctor-search">Search by doctor, hospital, department, or speciality</label>
+      <input id="doctor-search" type="search" placeholder="e.g. medicine, cardiology, hospital…" autocomplete="off">
+      <p class="helper">Search results use the project's bundled demonstration dataset. Schedules and listings must be verified before real-world use.</p>
+      <div id="doctor-results" class="doctor-grid" aria-live="polite"></div>
+    </section>
+
+    <aside class="side-stack">
+      <section class="panel booking-panel" aria-labelledby="booking-title">
+        <p class="eyebrow">02 / BOOK</p>
+        <h2 id="booking-title">Request an appointment</h2>
+        <div id="selected-doctor" class="selected-doctor empty-state">Choose a doctor from the directory to start.</div>
+        <form id="booking-form">
+          <input id="doctor-id" type="hidden" required>
+          <label class="field-label" for="patient-name">Patient name</label>
+          <input id="patient-name" name="patientName" type="text" minlength="2" maxlength="100" placeholder="Sample patient" required>
+          <label class="field-label" for="patient-phone">Mobile number</label>
+          <input id="patient-phone" name="phone" type="tel" minlength="7" maxlength="20" placeholder="01XXXXXXXXX" required>
+          <label class="field-label" for="appointment-date">Preferred date</label>
+          <input id="appointment-date" name="date" type="date" required>
+          <button class="btn primary full" type="submit">Create demo appointment</button>
+          <p class="helper warning">Prototype only: this does not contact a hospital or confirm a real appointment.</p>
+          <div id="booking-message" class="message" role="status" aria-live="polite"></div>
+        </form>
+      </section>
+      <section class="panel appointments-panel" aria-labelledby="appointments-title">
+        <div class="section-heading compact">
+          <div><p class="eyebrow">03 / REVIEW</p><h2 id="appointments-title">Saved demo appointments</h2></div>
+          <button id="clear-demo" class="btn quiet" type="button">Clear</button>
+        </div>
+        <div id="appointment-list" class="appointment-list" aria-live="polite"></div>
+        <p class="helper">Saved only in this browser using localStorage. Never enter real patient information.</p>
+      </section>
+    </aside>
+  </main>
+  <footer class="footer">Find Your Doctor · Software Engineering &amp; Project Management Lab · ICT 3108<br>Academic prototype — not a medical service.</footer>
+  <script src="../js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

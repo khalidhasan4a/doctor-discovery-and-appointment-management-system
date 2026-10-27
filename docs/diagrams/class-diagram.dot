@@ -1,0 +1,20 @@
+digraph ClassDiagram {
+ graph [rankdir=LR, bgcolor="white", pad="0.25", nodesep="0.42", ranksep="0.62", fontname="DejaVu Sans", labelloc="t", label="UML CLASS DIAGRAM — OOP INTERFACE PROTOTYPE", fontsize=19, fontcolor="#16324F"];
+ node [shape=plain, fontname="DejaVu Sans", fontsize=9, fontcolor="#16324F"];
+ edge [fontname="DejaVu Sans", fontsize=8.5, color="#147D86", fontcolor="#305A68", penwidth=1.15, arrowsize=0.7];
+ Doctor [label=< <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#31556B"><TR><TD BGCOLOR="#D6E8F7"><B>Doctor</B></TD></TR><TR><TD ALIGN="LEFT">- id: string</TD></TR><TR><TD ALIGN="LEFT">- hospital: string</TD></TR><TR><TD ALIGN="LEFT">- name: string</TD></TR><TR><TD ALIGN="LEFT">- department: string</TD></TR><TR><TD ALIGN="LEFT">- speciality: string</TD></TR><TR><TD ALIGN="LEFT">+ matches(query): boolean</TD></TR><TR><TD ALIGN="LEFT">+ toCardData(): object</TD></TR></TABLE> >];
+ Patient [label=< <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#31556B"><TR><TD BGCOLOR="#E5F3E7"><B>Patient</B></TD></TR><TR><TD ALIGN="LEFT">- name: string</TD></TR><TR><TD ALIGN="LEFT">- phone: string</TD></TR><TR><TD ALIGN="LEFT">- registrationNo: string</TD></TR><TR><TD ALIGN="LEFT">+ validate(): string[]</TD></TR></TABLE> >];
+ Appointment [label=< <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#31556B"><TR><TD BGCOLOR="#FFF1D7"><B>Appointment</B></TD></TR><TR><TD ALIGN="LEFT">- id: string</TD></TR><TR><TD ALIGN="LEFT">- doctorId: string</TD></TR><TR><TD ALIGN="LEFT">- patient: Patient</TD></TR><TR><TD ALIGN="LEFT">- date: string</TD></TR><TR><TD ALIGN="LEFT">- serial: number</TD></TR><TR><TD ALIGN="LEFT">- status: string</TD></TR><TR><TD ALIGN="LEFT">+ toJSON(): object</TD></TR></TABLE> >];
+ DoctorDirectory [label=< <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#31556B"><TR><TD BGCOLOR="#D6E8F7"><B>DoctorDirectory</B></TD></TR><TR><TD ALIGN="LEFT">- doctors: Doctor[]</TD></TR><TR><TD ALIGN="LEFT">+ search(query): Doctor[]</TD></TR><TR><TD ALIGN="LEFT">+ findById(id): Doctor</TD></TR></TABLE> >];
+ LocalStorageRepository [label=< <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#31556B"><TR><TD BGCOLOR="#E5F3E7"><B>LocalStorageRepository</B></TD></TR><TR><TD ALIGN="LEFT">- storageKey: string</TD></TR><TR><TD ALIGN="LEFT">+ getAll(): object[]</TD></TR><TR><TD ALIGN="LEFT">+ saveAll(items): void</TD></TR><TR><TD ALIGN="LEFT">+ add(item): void</TD></TR></TABLE> >];
+ AppointmentService [label=< <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#31556B"><TR><TD BGCOLOR="#FFF1D7"><B>AppointmentService</B></TD></TR><TR><TD ALIGN="LEFT">- directory: DoctorDirectory</TD></TR><TR><TD ALIGN="LEFT">- repository: LocalStorageRepository</TD></TR><TR><TD ALIGN="LEFT">+ book(input): Appointment</TD></TR><TR><TD ALIGN="LEFT">+ list(): Appointment[]</TD></TR><TR><TD ALIGN="LEFT">+ cancel(id): boolean</TD></TR></TABLE> >];
+ PrototypeUI [label=< <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#31556B"><TR><TD BGCOLOR="#F0E5F7"><B>PrototypeUI</B></TD></TR><TR><TD ALIGN="LEFT">- directory: DoctorDirectory</TD></TR><TR><TD ALIGN="LEFT">- service: AppointmentService</TD></TR><TR><TD ALIGN="LEFT">+ renderDoctors(): void</TD></TR><TR><TD ALIGN="LEFT">+ handleBooking(): void</TD></TR><TR><TD ALIGN="LEFT">+ renderAppointments(): void</TD></TR></TABLE> >];
+ DoctorDirectory -> Doctor [label="contains 0..*", arrowhead=vee];
+ AppointmentService -> DoctorDirectory [label="uses", style=dashed, arrowhead=vee];
+ AppointmentService -> LocalStorageRepository [label="persists through", style=dashed, arrowhead=vee];
+ Appointment -> Doctor [label="refers to", arrowhead=vee];
+ Appointment -> Patient [label="1 patient", arrowhead=vee];
+ LocalStorageRepository -> Appointment [label="stores serialised", style=dashed, arrowhead=vee];
+ PrototypeUI -> DoctorDirectory [label="uses", style=dashed, arrowhead=vee];
+ PrototypeUI -> AppointmentService [label="calls", style=dashed, arrowhead=vee];
+}

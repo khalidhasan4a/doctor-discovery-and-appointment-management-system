@@ -1,0 +1,16 @@
+digraph ERD {
+ graph [rankdir=LR, bgcolor="white", pad="0.25", nodesep="0.65", ranksep="0.85", fontname="DejaVu Sans", labelloc="t", label="ENTITY–RELATIONSHIP DIAGRAM — PROPOSED PRODUCTION DATA MODEL", fontsize=18, fontcolor="#16324F"];
+ node [shape=plain, fontname="DejaVu Sans", fontsize=10, fontcolor="#16324F"];
+ edge [fontname="DejaVu Sans", fontsize=9, color="#147D86", fontcolor="#305A68", penwidth=1.3, arrowsize=0.7, dir=none];
+ Hospital [label=< <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6" COLOR="#31556B"><TR><TD BGCOLOR="#D6E8F7"><B>HOSPITAL</B></TD></TR><TR><TD ALIGN="LEFT"><B>PK</B> hospital_id</TD></TR><TR><TD ALIGN="LEFT">name</TD></TR><TR><TD ALIGN="LEFT">address</TD></TR><TR><TD ALIGN="LEFT">contact_phone</TD></TR></TABLE> >];
+ Doctor [label=< <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6" COLOR="#31556B"><TR><TD BGCOLOR="#D6E8F7"><B>DOCTOR</B></TD></TR><TR><TD ALIGN="LEFT"><B>PK</B> doctor_id</TD></TR><TR><TD ALIGN="LEFT"><B>FK</B> hospital_id</TD></TR><TR><TD ALIGN="LEFT">full_name</TD></TR><TR><TD ALIGN="LEFT">department</TD></TR><TR><TD ALIGN="LEFT">speciality</TD></TR><TR><TD ALIGN="LEFT">visit_days / visit_time</TD></TR></TABLE> >];
+ Patient [label=< <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6" COLOR="#31556B"><TR><TD BGCOLOR="#E5F3E7"><B>PATIENT</B></TD></TR><TR><TD ALIGN="LEFT"><B>PK</B> patient_id</TD></TR><TR><TD ALIGN="LEFT">registration_no (unique)</TD></TR><TR><TD ALIGN="LEFT">full_name</TD></TR><TR><TD ALIGN="LEFT">mobile (restricted)</TD></TR></TABLE> >];
+ Appointment [label=< <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6" COLOR="#31556B"><TR><TD BGCOLOR="#FFF1D7"><B>APPOINTMENT</B></TD></TR><TR><TD ALIGN="LEFT"><B>PK</B> appointment_id</TD></TR><TR><TD ALIGN="LEFT"><B>FK</B> patient_id</TD></TR><TR><TD ALIGN="LEFT"><B>FK</B> doctor_id</TD></TR><TR><TD ALIGN="LEFT">appointment_date</TD></TR><TR><TD ALIGN="LEFT">serial_no</TD></TR><TR><TD ALIGN="LEFT">status / created_at</TD></TR></TABLE> >];
+ Admin [label=< <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6" COLOR="#31556B"><TR><TD BGCOLOR="#FCE8E6"><B>ADMIN_USER</B></TD></TR><TR><TD ALIGN="LEFT"><B>PK</B> admin_id</TD></TR><TR><TD ALIGN="LEFT">username (unique)</TD></TR><TR><TD ALIGN="LEFT">password_hash</TD></TR><TR><TD ALIGN="LEFT">role / active</TD></TR></TABLE> >];
+ Hospital -> Doctor [label="1       employs / lists       N"];
+ Doctor -> Appointment [label="1       receives       N"];
+ Patient -> Appointment [label="1       books       N"];
+ Admin -> Appointment [label="1       reviews       N", style=dashed];
+ note [shape=note, style=filled, fillcolor="#FFF9EA", color="#C79B42", label="Target logical ERD for a future server-backed release.\nThe submitted implementation stores flat records in browser localStorage;\nthis database schema is a proposed production extension."];
+ note -> Appointment [style=dashed, dir=forward, arrowhead=none, color="#C79B42"];
+}

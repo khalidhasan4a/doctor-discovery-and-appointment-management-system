@@ -1,0 +1,22 @@
+# LaTeX build intermediates
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.blg
+*.bbl
+*.run.xml
+
+# Editor / OS files
+.DS_Store
+Thumbs.db
+.vscode/*.log
+
+# Temporary files / screenshots
+*.tmp
+*.bak

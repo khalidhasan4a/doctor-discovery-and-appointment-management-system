@@ -1,0 +1,14 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Open in Chrome",
+      "type": "process",
+      "windows": { "command": "cmd", "args": ["/c", "start", "chrome", "${workspaceFolder}\\index.html"] },
+      "osx": { "command": "open", "args": ["-a", "Google Chrome", "${workspaceFolder}/index.html"] },
+      "linux": { "command": "google-chrome", "args": ["${workspaceFolder}/index.html"] },
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": { "reveal": "never", "close": true }
+    }
+  ]
+}
